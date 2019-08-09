@@ -54,7 +54,10 @@
     A container for items of data supplied by the simple tree model.
 */
 
-#include "treeitem.h"
+#include "../include/treeitem.h"
+
+#include <QTextStream>
+#include <QDebug>
 
 //! [0]
 TreeItem::TreeItem(const QVector<QVariant> &data, TreeItem *parent)
@@ -187,3 +190,49 @@ bool TreeItem::setData(int column, const QVariant &value)
     return true;
 }
 //! [11]
+
+
+bool TreeItem::saveData(QFile& file, bool FILEREWRITE)
+{
+    if (FILEREWRITE)
+    {
+        if (!file.open(QIODevice::WriteOnly))
+        {
+            qDebug() << "Although I don't know why, you fail opening the file.";
+            return false;
+        }
+    }
+    else
+    {
+        if (!file.open(QIODevice::WriteOnly | QIODevice::Append))
+        {
+            qDebug() << "Although I don't know why, you fail opening the file.";
+            return false;
+        }
+    }
+
+    QTextStream out(&file);
+    if (itemData[1].toString() == "NOTOPTION")
+    {
+        out << "%" << itemData[0].toString() << ": " << itemData[2].toString() << "\n";
+    }
+    else if (itemData[1].isNull())
+    {
+        out << "\n\n" << "%" << itemData[0].toString() << "\n";
+    }
+    else if (itemData[0].toString() == "Title" && itemData[1].toString() == "Option")
+    {
+        ;
+    }
+    else
+    {
+        out << itemData[0].toString() << "= " << itemData[1].toString() << "\n";
+    };
+    file.close();
+
+    for (int i = 0; i< childItems.count(); i++)
+    {
+        childItems.at(i)->saveData(file, false);
+    }
+    return true;
+}

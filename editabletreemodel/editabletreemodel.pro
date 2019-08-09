@@ -2,15 +2,15 @@ QT += widgets
 requires(qtConfig(treeview))
 
 FORMS       = mainwindow.ui
-HEADERS     = mainwindow.h \
-              treeitem.h \
-              treemodel.h
+HEADERS     = ./include/mainwindow.h \
+              ./include/treeitem.h \
+              ./include/treemodel.h
 RESOURCES   = editabletreemodel.qrc
-SOURCES     = mainwindow.cpp \
-              treeitem.cpp \
-              treemodel.cpp \
-              main.cpp
+SOURCES     = ./src/mainwindow.cpp \
+              ./src/treeitem.cpp \
+              ./src/treemodel.cpp \
+              ./src/main.cpp
 
 # install
-target.path = $$[QT_INSTALL_EXAMPLES]/widgets/itemviews/editabletreemodel
-INSTALLS += target
+#target.path = ./bin
+#INSTALLS += target

@@ -48,36 +48,16 @@
 **
 ****************************************************************************/
 
-#ifndef TREEITEM_H
-#define TREEITEM_H
+#include "../include/mainwindow.h"
 
-#include <QVariant>
-#include <QVector>
+#include <QApplication>
 
-//! [0]
-class TreeItem
+int main(int argc, char *argv[])
 {
-public:
-    explicit TreeItem(const QVector<QVariant> &data, TreeItem *parent = nullptr);
-    ~TreeItem();
+    Q_INIT_RESOURCE(editabletreemodel);
 
-    TreeItem *child(int number);
-    int childCount() const;
-    int columnCount() const;
-    QVariant data(int column) const;
-    bool insertChildren(int position, int count, int columns);
-    bool insertColumns(int position, int columns);
-    TreeItem *parent();
-    bool removeChildren(int position, int count);
-    bool removeColumns(int position, int columns);
-    int childNumber() const;
-    bool setData(int column, const QVariant &value);
-
-private:
-    QVector<TreeItem*> childItems;
-    QVector<QVariant> itemData;
-    TreeItem *parentItem;
-};
-//! [0]
-
-#endif // TREEITEM_H
+    QApplication app(argc, argv);
+    MainWindow window;
+    window.show();
+    return app.exec();
+}

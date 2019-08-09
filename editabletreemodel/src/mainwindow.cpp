@@ -48,8 +48,8 @@
 **
 ****************************************************************************/
 
-#include "mainwindow.h"
-#include "treemodel.h"
+#include "../include/mainwindow.h"
+#include "../include/treemodel.h"
 
 #include <QFile>
 
@@ -58,7 +58,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     setupUi(this);
 
-    const QStringList headers({tr("Title"), tr("Description")});
+    const QStringList headers({tr("Title"), tr("Option") , tr("Description"),tr("Choices divided by ','")});
 
     QFile file(":/default.txt");
     file.open(QIODevice::ReadOnly);
@@ -69,6 +69,7 @@ MainWindow::MainWindow(QWidget *parent)
     for (int column = 0; column < model->columnCount(); ++column)
         view->resizeColumnToContents(column);
 
+    connect(saveAction, &QAction::triggered, model, &TreeModel::saveData);
     connect(exitAction, &QAction::triggered, qApp, &QCoreApplication::quit);
 
     connect(view->selectionModel(), &QItemSelectionModel::selectionChanged,

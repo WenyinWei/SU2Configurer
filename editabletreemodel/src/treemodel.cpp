@@ -48,8 +48,8 @@
 **
 ****************************************************************************/
 
-#include "treemodel.h"
-#include "treeitem.h"
+#include "../include/treemodel.h"
+#include "../include/treeitem.h"
 
 #include <QtWidgets>
 
@@ -296,4 +296,11 @@ void TreeModel::setupModelData(const QStringList &lines, TreeItem *parent)
         }
         ++number;
     }
+}
+
+bool TreeModel::saveData()
+{
+    QFile file("configure.cfg");
+    rootItem->saveData(file, true);
+    return true;
 }
